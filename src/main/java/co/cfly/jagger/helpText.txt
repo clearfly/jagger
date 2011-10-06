@@ -1,0 +1,3 @@
+Jagger Commands:
+	- $who - Lists all active users
+	- $help - Displays this message

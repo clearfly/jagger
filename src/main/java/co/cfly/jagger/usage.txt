@@ -1,0 +1,32 @@
+Jagger - Jabber Group Bot
+
+usage:
+java -jar jagger 	[-c=config_file] [-u=username] [-d=domain] [-s=server] [-t=port] [-p=password] [-r=resource] [-v|-vv] [-h|-?]
+
+	-c	Configuration File -- If this is not specified, current directory is 
+		assumed. Command-line options override config file parameters.
+
+	-u	Jabber Username -- Username the bot will use to log into the jabber
+		server.  This username should not include the domain name.
+
+	-d	Jabber Domain Name -- The domain name of the jabber server.
+	
+	-s  Jabber Server -- The IP address or hostname of the jabber server.
+	
+	-t  Jabber Port -- The TCP port to connect to on the Jabber server. Defaults
+	    to 5222. Ignored if the server parameter is not configured.
+
+	-p	Jabber Password -- The password for the username's (-u) account on
+		the jabber server.
+
+	-r	Jabber Resource -- The resource name given when logging in to the
+		jabber server.
+
+	-v|-vv	Verbosity level -- The level of debug output.  vv is more verbose.
+	
+	-h|-?	Help -- This output.
+	
+examples:
+	java -jar jagger -c=testbot.properties
+	java -jar jagger -u=testbot -d=clearfly.net -p=testpass -r=HOSTNAME -vv
+	java -jar jagger -u=testbot@gmail.com -d=gmail.com -s=talk.google.com -t=5222 -t=testpass
