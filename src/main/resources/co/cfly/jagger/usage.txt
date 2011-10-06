@@ -11,10 +11,10 @@ java -jar jagger 	[-c=config_file] [-u=username] [-d=domain] [-s=server] [-t=por
 
 	-d	Jabber Domain Name -- The domain name of the jabber server.
 	
-	-s  Jabber Server -- The IP address or hostname of the jabber server.
+	-s	Jabber Server -- The IP address or hostname of the jabber server.
 	
-	-t  Jabber Port -- The TCP port to connect to on the Jabber server. Defaults
-	    to 5222. Ignored if the server parameter is not configured.
+	-t	Jabber Port -- The TCP port to connect to on the Jabber server. Defaults
+		to 5222. Ignored if the server parameter is not configured.
 
 	-p	Jabber Password -- The password for the username's (-u) account on
 		the jabber server.
