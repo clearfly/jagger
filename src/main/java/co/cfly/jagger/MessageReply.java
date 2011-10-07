@@ -83,7 +83,7 @@ public class MessageReply implements Runnable
                     reply.setTo(entry.getUser());
                     reply.setBody(returnMessage);
                     xmppConn.sendPacket(reply);
-                    JaggerAgent.doDebug(2, "Sent to " + replyAddr + ": " + returnMessage);
+                    JaggerAgent.doDebug(2, "Sent to " + entry.getUser() + ": " + returnMessage);
                 }
             }
         }
