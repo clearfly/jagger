@@ -174,6 +174,10 @@ public class JaggerAgent
     private static Roster updateRoster(Roster savedRoster, XMPPConnection xmppConn)
     {
         Roster newRoster = xmppConn.getRoster();
+        if (debugLevel == 2)
+        {
+            System.out.println("Saved roster entries: " + savedRoster.getEntries().size() + ", New roster entries: " + newRoster.getEntries().size());
+        }
         if (newRoster.getEntries().size() > 0)
         {
             return newRoster;
