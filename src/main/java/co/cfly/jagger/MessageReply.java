@@ -76,7 +76,7 @@ public class MessageReply implements Runnable
         {
             for (RosterEntry entry : roster.getEntries())
             {
-                if (entry.getUser().equals(replyAddr) == false)
+                if (entry.getUser().equalsIgnoreCase(replyAddr) == false)
                 {
                     xmppMsgEventMgr.sendComposingNotification(entry.getUser(), new Date().toString());
                     Message reply = new Message();

@@ -108,7 +108,7 @@ public class JaggerAgent
                     Message message = (Message) packet;
                     if (message.getBody() != null)
                     {
-                        String fromName = StringUtils.parseBareAddress(message.getFrom());
+                        String fromName = StringUtils.parseBareAddress(message.getFrom()).toLowerCase();
                         doDebug(1, "Message from " + fromName + "\n" + message.getBody() + "\n");
                         savedRoster = updateRoster(savedRoster, xmppConn);
                         Runnable replyBot = new MessageReply(savedRoster, fromName, message.getBody());
