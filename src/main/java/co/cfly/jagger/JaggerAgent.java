@@ -160,7 +160,7 @@ public class JaggerAgent
 
     public static void doDebug(int minLevel, String content)
     {
-        if (minLevel >= debugLevel)
+        if (debugLevel >= minLevel)
         {
             System.out.println(content);
         }
