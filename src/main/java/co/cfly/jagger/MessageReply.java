@@ -17,9 +17,10 @@ public class MessageReply implements Runnable {
 	private Roster roster;
 	private boolean replyToAll;
 
-	public MessageReply(String replyAddr, String receivedMessage) {
+	public MessageReply(Roster roster, String replyAddr, String receivedMessage) {
 		this.replyAddr = replyAddr;
 		this.receivedMessage = receivedMessage;
+		this.roster = roster;
 	}
 
 	private String parseEmailAddress(String address) {
@@ -59,7 +60,6 @@ public class MessageReply implements Runnable {
 
 	public void run() {
 		xmppConn = JaggerAgent.getXmppConn();
-		roster = xmppConn.getRoster();
 		MessageEventManager xmppMsgEventMgr = new MessageEventManager(xmppConn);
 		processMessage();
 		if (replyToAll)

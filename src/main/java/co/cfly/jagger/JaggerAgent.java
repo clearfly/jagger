@@ -26,6 +26,7 @@ public class JaggerAgent
     private static String xmppPassword = null;
     private static String xmppResource = null;
     private static String xmppDescription = null;
+    private static Roster savedRoster = null;
 
     public static XMPPConnection getXmppConn()
     {
@@ -106,6 +107,7 @@ public class JaggerAgent
         xmppPresence.setStatus(xmppDescription);
         xmppPresence.setMode(Presence.Mode.available);
         xmppConn.sendPacket(xmppPresence);
+        savedRoster = xmppConn.getRoster();
 
         PacketFilter chatFilter = new MessageTypeFilter(Message.Type.chat);
         PacketCollector xmppCollector = xmppConn.createPacketCollector(chatFilter);
@@ -126,7 +128,8 @@ public class JaggerAgent
                         {
                             System.out.println("Message from " + fromName + "\n" + message.getBody() + "\n");
                         }
-                        Runnable replyBot = new MessageReply(fromName, message.getBody());
+                        savedRoster = updateRoster(savedRoster, xmppConn);
+                        Runnable replyBot = new MessageReply(savedRoster, fromName, message.getBody());
                         Thread botThread = new Thread(replyBot);
                         botThread.start();
                     }
@@ -166,6 +169,16 @@ public class JaggerAgent
                 }
             }
         }
+    }
+
+    private static Roster updateRoster(Roster savedRoster, XMPPConnection xmppConn)
+    {
+        Roster newRoster = xmppConn.getRoster();
+        if (newRoster.getEntries().size() > 0)
+        {
+            return newRoster;
+        }
+        return savedRoster;
     }
 
     public static int getDebugLevel()
