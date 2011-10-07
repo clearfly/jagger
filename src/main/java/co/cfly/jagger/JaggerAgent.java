@@ -36,10 +36,7 @@ public class JaggerAgent
     public static void main(String[] args)
     {
         ParseConfig.processArgs(args);
-        if (debugLevel > 0)
-        {
-            System.out.println("Starting Jabber client . . .");
-        }
+        doDebug(1, "Starting Jabber client . . .");
         ConnectionConfiguration xmppConfig;
         if (xmppServer != null)
         {
@@ -62,17 +59,11 @@ public class JaggerAgent
         try
         {
             xmppConn.connect();
-            if (debugLevel > 0)
-            {
-                System.out.println("Connected to " + xmppConn.getHost());
-            }
+            doDebug(1, "Connected to " + xmppConn.getHost());
         }
         catch (XMPPException e)
         {
-            if (debugLevel == 2)
-            {
-                e.printStackTrace();
-            }
+            doDebug(2, e.getStackTrace().toString());
             System.out.println("Failed to connect to " + xmppConn.getHost());
             System.exit(1);
         }
@@ -86,19 +77,13 @@ public class JaggerAgent
                 xmppResource = "JaggerBot";
             }
             xmppConn.login(xmppUser, xmppPassword, xmppResource);
-            if (debugLevel > 0)
-            {
-                System.out.println("Logged in as " + xmppConn.getUser());
-            }
+            doDebug(1, "Logged in as " + xmppConn.getUser());
             Presence xmppPresence = new Presence(Presence.Type.available);
             xmppConn.sendPacket(xmppPresence);
         }
         catch (XMPPException e)
         {
-            if (debugLevel == 2)
-            {
-                e.printStackTrace();
-            }
+            doDebug(2, e.getStackTrace().toString());
             System.out.println("Failed to login as " + xmppUser);
             System.exit(1);
         }
@@ -124,10 +109,7 @@ public class JaggerAgent
                     if (message.getBody() != null)
                     {
                         String fromName = StringUtils.parseBareAddress(message.getFrom());
-                        if (debugLevel > 0)
-                        {
-                            System.out.println("Message from " + fromName + "\n" + message.getBody() + "\n");
-                        }
+                        doDebug(1, "Message from " + fromName + "\n" + message.getBody() + "\n");
                         savedRoster = updateRoster(savedRoster, xmppConn);
                         Runnable replyBot = new MessageReply(savedRoster, fromName, message.getBody());
                         Thread botThread = new Thread(replyBot);
@@ -143,10 +125,7 @@ public class JaggerAgent
         {
             public void run()
             {
-                if (debugLevel > 0)
-                {
-                    System.out.println("Shutting down Jabber bot . . .");
-                }
+                doDebug(1, "Shutting down Jabber bot . . .");
                 Presence xmppPresence = new Presence(Presence.Type.available);
                 xmppPresence.setStatus("The " + xmppDescription + " is temporarily unavailable. Offline messages will be delivered when it returns.");
                 xmppPresence.setMode(Presence.Mode.away);
@@ -163,10 +142,7 @@ public class JaggerAgent
             }
             catch (InterruptedException e)
             {
-                if (debugLevel == 2)
-                {
-                    e.printStackTrace();
-                }
+                doDebug(2, e.getStackTrace().toString());
             }
         }
     }
@@ -174,15 +150,20 @@ public class JaggerAgent
     private static Roster updateRoster(Roster savedRoster, XMPPConnection xmppConn)
     {
         Roster newRoster = xmppConn.getRoster();
-        if (debugLevel == 2)
-        {
-            System.out.println("Saved roster entries: " + savedRoster.getEntries().size() + ", New roster entries: " + newRoster.getEntries().size());
-        }
+        doDebug(2, "Saved roster entries: " + savedRoster.getEntries().size() + ", New roster entries: " + newRoster.getEntries().size());
         if (newRoster.getEntries().size() > 0)
         {
             return newRoster;
         }
         return savedRoster;
+    }
+
+    public static void doDebug(int minLevel, String content)
+    {
+        if (minLevel >= debugLevel)
+        {
+            System.out.println(content);
+        }
     }
 
     public static int getDebugLevel()
